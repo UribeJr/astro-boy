@@ -26,9 +26,11 @@ const CameraRig = () => {
     const targetFov = 50 - stress * 4; // Narrower FOV under stress feels more claustrophobic.
     const targetZ = 3.4 - stress * 0.35; // Subtle dolly-in to embody time pressure.
 
-    camera.fov = THREE.MathUtils.lerp(camera.fov, targetFov, 0.08);
+    if (camera instanceof THREE.PerspectiveCamera) {
+      camera.fov = THREE.MathUtils.lerp(camera.fov, targetFov, 0.08);
+      camera.updateProjectionMatrix();
+    }
     camera.position.z = THREE.MathUtils.lerp(camera.position.z, targetZ, 0.08);
-    camera.updateProjectionMatrix();
   });
 
   return null;
@@ -384,12 +386,7 @@ const SceneContents = () => {
       {/* Two particle layers simulate depth of field without post-processing. */}
       <points ref={farParticleRef}>
         <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            array={farParticles}
-            count={farParticles.length / 3}
-            itemSize={3}
-          />
+          <bufferAttribute attach="attributes-position" args={[farParticles, 3]} />
         </bufferGeometry>
         <pointsMaterial
           size={0.06}
@@ -401,12 +398,7 @@ const SceneContents = () => {
       </points>
       <points ref={nearParticleRef}>
         <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            array={nearParticles}
-            count={nearParticles.length / 3}
-            itemSize={3}
-          />
+          <bufferAttribute attach="attributes-position" args={[nearParticles, 3]} />
         </bufferGeometry>
         <pointsMaterial
           size={0.14}
@@ -420,9 +412,7 @@ const SceneContents = () => {
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-position"
-            array={streaks.positions}
-            count={streaks.positions.length / 3}
-            itemSize={3}
+            args={[streaks.positions, 3]}
           />
         </bufferGeometry>
         <lineBasicMaterial
