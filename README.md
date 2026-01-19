@@ -4,7 +4,11 @@ Scroll the space scale, snap to an anchor, and warp in.
 
 **[Live demo](https://astro-boy.onrender.com)**
 
-<!-- Add a screenshot: ![Warp Here](./screenshot.png) or ![Warp Here](./demo.gif) -->
+![Warp Here](./astro-boy-1.png)
+
+![Warp Here](./astro-boy-2.png)
+
+![Warp Here](./astro-boy-3.png)
 
 ## About
 
